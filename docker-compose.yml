@@ -1,0 +1,32 @@
+version: '3.1'
+
+services:
+
+  demo-crud:
+    image: demo-crud
+    build: .
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    ports:
+      - 8082:8080
+    depends_on:
+      - postgreserver1
+    networks:
+      - my-network
+
+  postgreserver1:
+    image: postgres:14-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: my-password
+      POSTGRES_DB: demo-crud
+    ports:
+      - 5432:5432
+    volumes:
+      - "C:\\docker-space\\postgres14:/var/lib/postgresql/data"
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge
